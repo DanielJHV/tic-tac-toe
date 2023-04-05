@@ -1,3 +1,5 @@
+'use strict';
+
 const cellElements = document.querySelectorAll('.cell');
 const board = document.querySelector('.board');
 const xClass = 'x';
@@ -48,18 +50,28 @@ const handleClick = function (e) {
 
   const endGame = function (draw) {
     if (draw) {
+      winningMessageText.textContent = 'Draw!';
     } else {
       winningMessageText.textContent = `${circleTurn ? "O's" : " X's"} Wins!`;
     }
     winningMessageEl.classList.add('show');
   };
 
+  const isDraw = function () {
+    // cellElements has to be destructurated to apply the every method
+    return [...cellElements].every(cell => {
+      return cell.classList.contains(xClass) || cell.classList.contains(circleClass);
+    });
+  };
+
   if (checkWin(currentClass)) {
     endGame();
+  } else if (isDraw()) {
+    endGame(true);
+  } else {
+    swapTurns();
+    setBoardHoverClass();
   }
-
-  swapTurns();
-  setBoardHoverClass();
 };
 
 const startGame = function () {
