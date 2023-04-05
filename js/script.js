@@ -6,6 +6,7 @@ const xClass = 'x';
 const circleClass = 'circle';
 const winningMessageEl = document.querySelector('.winning-message');
 const winningMessageText = document.querySelector('.winning-message__text');
+const restartBtn = document.querySelector('.restart-btn');
 const winningCombinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -77,8 +78,14 @@ const handleClick = function (e) {
 const startGame = function () {
   circleTurn = false;
   cellElements.forEach(cell => {
+    cell.classList.remove(xClass);
+    cell.classList.remove(circleClass);
+    cell.removeEventListener('click', handleClick);
     cell.addEventListener('click', handleClick, { once: true }); // This will fire the event listener only once.
   });
+  winningMessageEl.classList.remove('show');
 };
 
 startGame();
+
+restartBtn.addEventListener('click', startGame);
